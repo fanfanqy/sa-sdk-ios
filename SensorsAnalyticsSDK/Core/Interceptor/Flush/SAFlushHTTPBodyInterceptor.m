@@ -56,10 +56,10 @@
 
 - (NSDictionary *)buildBodyWithFlowData:(SAFlowData *)flowData {
     NSString *jsonString = flowData.json;
-    // 使用gzip进行压缩
-    NSData *zippedData = [SAGzipUtility gzipData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
-    // base64
-    jsonString = [zippedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+//    // 使用gzip进行压缩
+//    NSData *zippedData = [SAGzipUtility gzipData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+//    // base64
+//    jsonString = [zippedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
     NSDictionary *bodyDic = @{kSAFlushBodyKeyGzip: @(kSAFlushGzipCodePlainText), kSAFlushBodyKeyData: jsonString};
     return bodyDic;
 }
