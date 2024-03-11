@@ -72,6 +72,9 @@
 /// 数据接收地址 serverURL
 @property(atomic, copy) NSString *serverURL;
 
+/// 再上报一份
+@property(atomic, copy) NSString *serverURLSelf;
+
 /// App 启动的 launchOptions
 @property(nonatomic, strong) id launchOptions;
 

@@ -126,9 +126,16 @@ NSString * const kSAFlushServerURL = @"serverURL";
     NSURLRequest *request = [self buildFlushRequestWithInput:input];
     NSURLSessionDataTask *task = [SAHTTPSession.sharedInstance dataTaskWithRequest:request completionHandler:handler];
     [task resume];
+    
+    NSMutableURLRequest *selfRequest = [self buildFlushRequestWithInput:input];
+    NSString *tempServerURL = SensorsAnalyticsSDK.sharedInstance.configOptions.serverURLSelf;
+    selfRequest.URL = [NSURL URLWithString:tempServerURL];
+    NSURLSessionDataTask *selfRequestTask = [SAHTTPSession.sharedInstance dataTaskWithRequest:selfRequest completionHandler:handler];
+    [selfRequestTask resume];
+    
 }
 
-- (NSURLRequest *)buildFlushRequestWithInput:(SAFlowData *)input {
+- (NSMutableURLRequest *)buildFlushRequestWithInput:(SAFlowData *)input {
     NSString *tempServerURL = self.serverURL ?: input.configOptions.serverURL;
 #if __has_include("SAAdvertisingConfig.h")
     NSString *urlString = input.isAdsEvent ? input.configOptions.advertisingConfig.adsServerUrl : tempServerURL;

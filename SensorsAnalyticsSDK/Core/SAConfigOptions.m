@@ -96,10 +96,11 @@ static const NSUInteger kSASessionMaxInterval = 5 * 60;
 @implementation SAConfigOptions
 
 #pragma mark - initialize
-- (instancetype)initWithServerURL:(NSString *)serverURL launchOptions:(id)launchOptions {
+- (instancetype)initWithServerURL:(NSString *)serverURL serverURLSelf:(NSString *)serverURLSelf launchOptions:(id)launchOptions {
     self = [super init];
     if (self) {
         _serverURL = serverURL;
+        _serverURLSelf = serverURLSelf;
         _launchOptions = launchOptions;
         _autoTrackEventType = SensorsAnalyticsEventTypeNone;
         
@@ -148,6 +149,7 @@ static const NSUInteger kSASessionMaxInterval = 5 * 60;
 - (id)copyWithZone:(nullable NSZone *)zone {
     SAConfigOptions *options = [[[self class] allocWithZone:zone] init];
     options.serverURL = self.serverURL;
+    options.serverURLSelf = self.serverURLSelf;
     options.launchOptions = self.launchOptions;
     options.enableJavaScriptBridge = self.enableJavaScriptBridge;
     options.flushInterval = self.flushInterval;

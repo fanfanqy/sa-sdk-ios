@@ -23,6 +23,8 @@
 
 static NSString* Sa_Default_ServerURL = @"http://sdk-test.cloud.sensorsdata.cn:8006/sa?project=default&token=95c73ae661f85aa0";
 
+static NSString* Sa_Default_ServerURLSelf = @"https://app-test.nihaocloud.cn:443/nh-collect/msg/beacon";
+
 @interface AppDelegate ()
 
 @end
@@ -31,7 +33,8 @@ static NSString* Sa_Default_ServerURL = @"http://sdk-test.cloud.sensorsdata.cn:8
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    SAConfigOptions *options = [[SAConfigOptions alloc] initWithServerURL:Sa_Default_ServerURL launchOptions:launchOptions];
+    SAConfigOptions *options = [[SAConfigOptions alloc] initWithServerURL:Sa_Default_ServerURL serverURLSelf:Sa_Default_ServerURLSelf launchOptions:launchOptions];
+    
     options.autoTrackEventType = SensorsAnalyticsEventTypeAppStart | SensorsAnalyticsEventTypeAppEnd | SensorsAnalyticsEventTypeAppClick | SensorsAnalyticsEventTypeAppViewScreen;
     options.flushNetworkPolicy = SensorsAnalyticsNetworkTypeALL;
     options.enableTrackAppCrash = YES;

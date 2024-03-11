@@ -39,8 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param serverURL 数据接收地址
  @return 配置对象
  */
-- (instancetype)initWithServerURL:(nonnull NSString *)serverURL
-                    launchOptions:(nullable id)launchOptions NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithServerURL:(nonnull NSString *)serverURL serverURLSelf:(nonnull NSString *)serverURL launchOptions:(nullable id)launchOptions NS_DESIGNATED_INITIALIZER;
 
 /// 禁用 init 初始化
 - (instancetype)init NS_UNAVAILABLE;
