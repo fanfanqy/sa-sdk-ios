@@ -127,11 +127,17 @@ NSString * const kSAFlushServerURL = @"serverURL";
     NSURLSessionDataTask *task = [SAHTTPSession.sharedInstance dataTaskWithRequest:request completionHandler:handler];
     [task resume];
     
-    NSMutableURLRequest *selfRequest = [self buildFlushRequestWithInput:input];
-    NSString *tempServerURL = SensorsAnalyticsSDK.sharedInstance.configOptions.serverURLSelf;
-    selfRequest.URL = [NSURL URLWithString:tempServerURL];
-    NSURLSessionDataTask *selfRequestTask = [SAHTTPSession.sharedInstance dataTaskWithRequest:selfRequest completionHandler:handler];
-    [selfRequestTask resume];
+    // 自埋点
+    NSString *selfServerURL = SensorsAnalyticsSDK.sharedInstance.configOptions.serverURLSelf;
+    if ([selfServerURL length] > 0) {
+        SAURLSessionTaskCompletionHandler handlerSelf = ^(NSData * _Nullable data, NSHTTPURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+        };
+        NSMutableURLRequest *selfRequest = [self buildFlushRequestWithInput:input];
+        selfRequest.URL = [NSURL URLWithString:selfServerURL];
+        NSURLSessionDataTask *selfRequestTask = [SAHTTPSession.sharedInstance dataTaskWithRequest:selfRequest completionHandler:handlerSelf];
+        [selfRequestTask resume];
+    }
     
 }
 
