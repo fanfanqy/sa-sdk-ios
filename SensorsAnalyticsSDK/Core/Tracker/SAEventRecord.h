@@ -62,7 +62,7 @@ typedef NS_ENUM(int, SAEventRecordStatus) {
 - (void)setSecretObject:(NSDictionary *)obj;
 
 - (void)removePayload;
-- (BOOL)mergeSameEKeyPayloadWithRecord:(SAEventRecord *)record;
+- (BOOL)mergeSameEKeyRecord:(SAEventRecord *)record;
 
 @end
 

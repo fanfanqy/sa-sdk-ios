@@ -69,7 +69,11 @@
 #import <UIKit/UIApplication.h>
 #endif
 
+<<<<<<< HEAD
 #define VERSION @"4.8.2"
+=======
+#define VERSION @"4.7.0"
+>>>>>>> parent of 3124e86 (Release 4.7.1)
 
 void *SensorsAnalyticsQueueTag = &SensorsAnalyticsQueueTag;
 

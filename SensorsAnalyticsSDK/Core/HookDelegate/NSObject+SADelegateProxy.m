@@ -25,10 +25,6 @@
 #import "NSObject+SADelegateProxy.h"
 #import <objc/runtime.h>
 
-#if TARGET_OS_IOS
-#import <UIKit/UIKit.h>
-#endif
-
 static void *const kSANSObjectDelegateOptionalSelectorsKey = (void *)&kSANSObjectDelegateOptionalSelectorsKey;
 static void *const kSANSObjectDelegateObjectKey = (void *)&kSANSObjectDelegateObjectKey;
 
@@ -57,6 +53,7 @@ static void *const kSANSProxyDelegateObjectKey = (void *)&kSANSProxyDelegateObje
     if ([self sensorsdata_respondsToSelector:aSelector]) {
         return YES;
     }
+<<<<<<< HEAD
 
 #if TARGET_OS_IOS
     if (@available(iOS 18.0, *)) {
@@ -67,6 +64,8 @@ static void *const kSANSProxyDelegateObjectKey = (void *)&kSANSProxyDelegateObje
     }
 #endif
 
+=======
+>>>>>>> parent of 3124e86 (Release 4.7.1)
     if ([self.sensorsdata_optionalSelectors containsObject:NSStringFromSelector(aSelector)]) {
         return YES;
     }
