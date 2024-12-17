@@ -35,6 +35,7 @@
 #import "UIViewController+SAInternalProperties.h"
 #import "SAValidator.h"
 #import "SAModuleManager.h"
+#import "UIView+SensorsAnalytics.h"
 #import "SALog.h"
 
 @implementation SAUIProperties

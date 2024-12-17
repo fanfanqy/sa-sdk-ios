@@ -63,7 +63,6 @@
     NSMutableData *iv = [NSMutableData dataWithLength:kCCBlockSizeAES128];
     int result = SecRandomCopyBytes(kSecRandomDefault, kCCBlockSizeAES128, iv.mutableBytes);
     if (result != errSecSuccess) {
-        free(buffer);
         return nil;
     }
 
@@ -112,7 +111,6 @@
     NSMutableData *iv = [NSMutableData dataWithLength:kCCBlockSizeAES128];
     int result = SecRandomCopyBytes(kSecRandomDefault, kCCBlockSizeAES128, iv.mutableBytes);
     if (result != errSecSuccess) {
-        free(buffer);
         return nil;
     }
 

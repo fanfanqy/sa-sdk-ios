@@ -23,11 +23,6 @@
 #endif
 
 #import "SAFileStorePlugin.h"
-#import "SAMacHistoryFileStorePlugin.h"
-
-#if __has_include("SAStoreManager.h")
-#import "SAStoreManager.h"
-#endif
 
 static NSString * const kSAFileStorePluginType = @"cn.sensorsdata.File.";
 
@@ -36,8 +31,8 @@ static NSString * const kSAFileStorePluginType = @"cn.sensorsdata.File.";
 + (NSString *)filePath:(NSString *)key {
     NSString *name = [key stringByReplacingOccurrencesOfString:kSAFileStorePluginType withString:@""];
 #if TARGET_OS_OSX
-    NSString *appId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
-    NSString *filename = [NSString stringWithFormat:@"sensorsanalytics-%@-%@.plist", appId, name];
+    // 兼容老版 mac SDK 的本地数据
+    NSString *filename = [NSString stringWithFormat:@"com.sensorsdata.analytics.mini.SensorsAnalyticsSDK.%@.plist", name];
 #else
     NSString *filename = [NSString stringWithFormat:@"sensorsanalytics-%@.plist", name];
 #endif
@@ -49,6 +44,7 @@ static NSString * const kSAFileStorePluginType = @"cn.sensorsdata.File.";
     return [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
             stringByAppendingPathComponent:filename];
 #endif
+
 
 }
 
@@ -62,32 +58,8 @@ static NSString * const kSAFileStorePluginType = @"cn.sensorsdata.File.";
     return kSAFileStorePluginType;
 }
 
-// macOS 历史数据迁移
 - (void)upgradeWithOldPlugin:(nonnull id<SAStorePlugin>)oldPlugin {
-    if (![oldPlugin isKindOfClass:SAMacHistoryFileStorePlugin.class]) {
-        return;
-    }
 
-    NSArray *storeKeys = [self storeKeys];
-    for (NSString *key in storeKeys) {
-        NSString *oldStoreKey = [NSString stringWithFormat:@"%@%@", oldPlugin.type, key];
-        // 读取旧数据
-        id historyValue = [oldPlugin objectForKey:oldStoreKey];
-        if (!historyValue) {
-            continue;
-        }
-
-        NSString *newStoreKey = [NSString stringWithFormat:@"%@%@", self.type, key];
-        // 数据迁移到新插件
-        [self setObject:historyValue forKey:newStoreKey];
-        // 删除历史数据
-        [oldPlugin removeObjectForKey:oldStoreKey];
-    }
-
-#if __has_include("SAStoreManager.h")
-    // 迁移完成或，移除旧插件
-    [SAStoreManager.sharedInstance unregisterStorePluginWithPluginClass:SAMacHistoryFileStorePlugin.class];
-#endif
 }
 
 - (nullable id)objectForKey:(nonnull NSString *)key {

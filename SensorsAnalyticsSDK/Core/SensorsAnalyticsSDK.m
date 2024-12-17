@@ -63,13 +63,12 @@
 #import "SAEventStore.h"
 #import "SALimitKeyManager.h"
 #import "NSDictionary+SACopyProperties.h"
-#import "SAMacHistoryFileStorePlugin.h"
 
 #if TARGET_OS_IOS || TARGET_OS_TV
 #import <UIKit/UIApplication.h>
 #endif
 
-#define VERSION @"4.8.2"
+#define VERSION @"4.7.0"
 
 void *SensorsAnalyticsQueueTag = &SensorsAnalyticsQueueTag;
 
@@ -202,8 +201,8 @@ NSString * const SensorsAnalyticsIdentityKeyEmail = @"$identity_email";
                 [self enableLog:_configOptions.enableLog];
             }
             
-            [self registerStorePlugins];
-
+            [self resgisterStorePlugins];
+            
             _appLifecycle = [[SAAppLifecycle alloc] init];
             
             NSString *serialQueueLabel = [NSString stringWithFormat:@"com.sensorsdata.serialQueue.%p", self];
@@ -214,13 +213,8 @@ NSString * const SensorsAnalyticsIdentityKeyEmail = @"$identity_email";
             _readWriteQueue = dispatch_queue_create([readWriteQueueLabel UTF8String], DISPATCH_QUEUE_SERIAL);
             
             _network = [[SANetwork alloc] init];
-
+            
             NSString *path = [SAFileStorePlugin filePath:kSADatabaseDefaultFileName];
-#if TARGET_OS_OSX
-            if (configOptions.databaseFilePath && [configOptions.databaseFilePath hasSuffix: @".plist"]) {
-                path = configOptions.databaseFilePath;
-            }
-#endif
             _eventStore = [SAEventStore eventStoreWithFilePath:path];
             
             _trackTimer = [[SATrackTimer alloc] init];
@@ -267,12 +261,7 @@ NSString * const SensorsAnalyticsIdentityKeyEmail = @"$identity_email";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)registerStorePlugins {
-#if TARGET_OS_OSX
-    SAMacHistoryFileStorePlugin *macFilePlugin = [[SAMacHistoryFileStorePlugin alloc] init];
-    [[SAStoreManager sharedInstance] registerStorePlugin:macFilePlugin];
-#endif
-    
+- (void)resgisterStorePlugins {
     SAFileStorePlugin *filePlugin = [[SAFileStorePlugin alloc] init];
     [[SAStoreManager sharedInstance] registerStorePlugin:filePlugin];
     
